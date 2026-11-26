@@ -1,0 +1,2 @@
+import Link from '@/components/bfk/link';
+export default function NotFound(){return <main id="main-content" className="container not-found"><span className="brass-rule" aria-hidden="true"/><h1>We couldn’t find that page.</h1><p>The page may have moved or the address may be incomplete. You can return to the homepage or find the right contact at BFK.</p><div className="actions"><Link className="button dark" href="/">Back to home</Link><Link className="text-link" href="/contact">Get in touch</Link></div></main>;}

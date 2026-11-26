@@ -1,0 +1,54 @@
+# Apache rules for the BFK static site.
+Options -Indexes
+ErrorDocument 404 /404.html
+DirectoryIndex index.html
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType text/x-component .rsc
+</IfModule>
+
+RewriteEngine On
+
+# Always use HTTPS.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Hide source code, docs and build leftovers.
+RewriteRule ^(source|\.git|\.vite)(/|$) - [R=404,L]
+RewriteRule ^(HANDOVER\.md|README\.md|_headers|vinext-client-entry-manifest\.json)$ - [R=404,L]
+
+# /about/ -> /about (one address per page).
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# /about -> about.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+  # Hashed build files never change: cache for a year.
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # Images, fonts and icons: cache for a week.
+  <FilesMatch "\.(webp|jpe?g|png|ico|svg|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  # Pages: always check for a newer version.
+  <FilesMatch "\.(html|rsc)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml text/x-component application/manifest+json
+</IfModule>
