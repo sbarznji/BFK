@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /launch-checklist
+Disallow: /source/
+
+Sitemap: https://new.kurdsforlabour.org.uk/sitemap.xml
