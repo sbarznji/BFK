@@ -16,4 +16,4 @@ nginx needs this inside the site's `server {}` block so `/about` loads `about.ht
 ## Hosting on GitHub Pages
 
 `.github/workflows/deploy-pages.yml` publishes the root files (not `source/` or docs) to GitHub Pages on every push to `main`.
-The custom domain is `bfk.org.uk` (see `CNAME`). `.nojekyll` is required so the `_next/` folder is served.
+The custom domain is `www.bfk.org.uk` (bare `bfk.org.uk` redirects to it) (see `CNAME`). `.nojekyll` is required so the `_next/` folder is served.

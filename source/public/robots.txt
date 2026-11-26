@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /source/
 
-Sitemap: https://bfk.org.uk/sitemap.xml
+Sitemap: https://www.bfk.org.uk/sitemap.xml
