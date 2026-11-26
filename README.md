@@ -12,3 +12,8 @@ nginx needs this inside the site's `server {}` block so `/about` loads `about.ht
     add_header X-Content-Type-Options nosniff;
     add_header X-Frame-Options SAMEORIGIN;
     add_header Referrer-Policy strict-origin-when-cross-origin;
+
+## Hosting on GitHub Pages
+
+`.github/workflows/deploy-pages.yml` publishes the root files (not `source/` or docs) to GitHub Pages on every push to `main`.
+The custom domain is `bfk.org.uk` (see `CNAME`). `.nojekyll` is required so the `_next/` folder is served.
